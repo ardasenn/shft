@@ -1,10 +1,13 @@
 ﻿using System.Reflection;
+using System.Text;
 using Application.Repositories;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Persistence.Context;
 using Persistence.Mapping;
 using Persistence.Repositories;
@@ -35,6 +38,34 @@ namespace Persistence
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SHFTDbContext>()
                 .AddDefaultTokenProviders();
+
+            // JWT Authentication Configuration
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero,
+                        ValidIssuer = configuration["JWT:ValidIssuer"],
+                        ValidAudience = configuration["JWT:ValidAudience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(
+                                configuration["JWT:Secret"] ?? "DefaultSecretKey"
+                            )
+                        )
+                    };
+                });
 
             //Repositories
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));

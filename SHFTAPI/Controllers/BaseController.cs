@@ -35,7 +35,9 @@ namespace SHFTAPI.Controllers
             return action();
         }
 
-        protected async Task<IActionResult> ValidateModelAndExecuteAsync<T>(Func<Task<IActionResult>> action)
+        protected async Task<IActionResult> ValidateModelAndExecuteAsync<T>(
+            Func<Task<IActionResult>> action
+        )
         {
             if (!ModelState.IsValid())
             {
@@ -48,7 +50,8 @@ namespace SHFTAPI.Controllers
 
         protected string GetCurrentUserId()
         {
-            return User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+            return User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ??
+                   string.Empty;
         }
 
         protected string GetCurrentUserRole()

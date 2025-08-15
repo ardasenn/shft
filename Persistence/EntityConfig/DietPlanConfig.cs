@@ -19,10 +19,18 @@ namespace Persistence.EntityConfig
                 .HasMaxLength(1000);
 
             builder.Property(dp => dp.StartDate)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion(
+                    v => v.ToUniversalTime(),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+                );
 
             builder.Property(dp => dp.EndDate)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion(
+                    v => v.ToUniversalTime(),
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+                );
 
             builder.Property(dp => dp.InitialWeight)
                 .HasColumnType("decimal(5,2)");

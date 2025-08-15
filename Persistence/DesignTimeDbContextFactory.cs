@@ -22,14 +22,20 @@ namespace Persistence
             get
             {
                 ConfigurationManager configurationManager = new();
-                try
+
+                // First try SHFTAPI directory
+                string shftApiPath = Path.Combine(Directory.GetCurrentDirectory(), "../../SHFTAPI");
+                if (Directory.Exists(shftApiPath))
                 {
-                    configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../SHFTAPI"));
-                    configurationManager.AddJsonFile("appsettings.json");
+                    configurationManager.SetBasePath(shftApiPath);
+                    configurationManager.AddJsonFile("appsettings.json", optional: false);
+                    configurationManager.AddJsonFile("appsettings.Development.json", optional: true);
                 }
-                catch
+                else
                 {
-                    configurationManager.AddJsonFile("appsettings.Production.json");
+                    // Fallback: Use local appsettings.json in Persistence directory
+                    configurationManager.SetBasePath(Directory.GetCurrentDirectory());
+                    configurationManager.AddJsonFile("appsettings.json", optional: false);
                 }
 
                 return configurationManager.GetConnectionString("DefaultConnection");

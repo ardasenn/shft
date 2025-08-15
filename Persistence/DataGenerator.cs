@@ -45,8 +45,9 @@ namespace Persistence
                 );
 
             // Create Users
-            // Password: Admin@123
-            var adminPasswordHash = "AQAAAAEAACcQAAAAEGKKvPMb8Y8tJQXUv7fJjKGHLJGKJHGKJHGKJHGKJHGKJHGKJHGKJHGKJHGKJHGKJHGK==";
+            // Password: Admin.123
+            var adminPasswordHash =
+                "AQAAAAEAACcQAAAAEMIvRA61NHINPY1pfBNT5SXrLSS5VKO2YnCF4z2oMTJR/Gu2PLxFRVMjtX39I4apwg==";
 
             modelBuilder
                 .Entity<ApplicationUser>()
@@ -64,8 +65,8 @@ namespace Persistence
                         FirstName = "System",
                         LastName = "Administrator",
                         UserType = "Admin",
-                        CreationDate = DateTime.UtcNow,
-                        Status = Status.Active
+                        CreationDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        Status = Status.Active,
                     },
                     new ApplicationUser
                     {
@@ -83,9 +84,10 @@ namespace Persistence
                         LicenseNumber = "DT-2024-001",
                         Specialization = "Clinical Nutrition",
                         YearsOfExperience = 5,
-                        Bio = "Experienced clinical dietitian specializing in weight management and metabolic disorders.",
-                        CreationDate = DateTime.UtcNow,
-                        Status = Status.Active
+                        Bio =
+                            "Experienced clinical dietitian specializing in weight management and metabolic disorders.",
+                        CreationDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        Status = Status.Active,
                     },
                     new ApplicationUser
                     {
@@ -100,7 +102,7 @@ namespace Persistence
                         FirstName = "John",
                         LastName = "Doe",
                         UserType = "Client",
-                        DateOfBirth = new DateTime(1990, 5, 15),
+                        DateOfBirth = new DateTime(1990, 5, 15, 0, 0, 0, DateTimeKind.Utc),
                         Gender = "Male",
                         Height = 175.0m,
                         InitialWeight = 85.0m,
@@ -111,8 +113,8 @@ namespace Persistence
                         Allergies = "Nuts",
                         FoodPreferences = "No specific preferences",
                         DietitianId = dietitianUserId,
-                        CreationDate = DateTime.UtcNow,
-                        Status = Status.Active
+                        CreationDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        Status = Status.Active,
                     }
                 );
 
